@@ -1,0 +1,26 @@
+body {
+  background: #DE2828;
+  font-family: sans-serif;
+}
+
+.clock {
+  color: black;
+  font-size: 10em;
+  line-height: 10em;
+  margin-top: -5em;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+  opacity: .6;
+}
+
+.clock__hour {
+}
+
+.clock__minute {
+}
+
+.clock__second {
+  opacity: .4;
+}
