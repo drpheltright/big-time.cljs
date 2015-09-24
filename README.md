@@ -4,6 +4,16 @@ An example .cljs application built with boot.
 
 http://big-time.divshot.io/
 
+## The stack
+
+This boot environment gives us:
+
+ - ClojureScript compilation
+ - Hot loading
+ - Repl
+ - Sass compilation
+ - Deployment to divshot
+
 ## Development
 
 To start developing simply run:
