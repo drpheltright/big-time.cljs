@@ -4,6 +4,14 @@ body {
 }
 
 .clock {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  top: 0;
+}
+
+.clock__time {
   color: black;
   font-size: 10em;
   line-height: 10em;
