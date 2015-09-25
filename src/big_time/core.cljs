@@ -2,11 +2,13 @@
   (:require [quiescent.core :as q]
             [quiescent.dom :as dom]
             [goog.dom :as gdom]
-            [clojure.string :as string]))
+            [big-time.ui.app :as app]
+            [big-time.ui.clock :as clock]))
 
 (enable-console-print!)
 
-(def data (atom {:backgrounds [:red :blue :green]}))
+(def data (atom {:backgrounds [:red :blue :green]
+                 :current-time nil}))
 
 (defn time-str [int]
   (if (= (count (str int)) 1)
@@ -18,27 +20,10 @@
    (time-str (.getMinutes date))
    (time-str (.getSeconds date))])
 
-(defn change-background [_]
-  (swap! data (fn [data]
-                (update-in data [:backgrounds]
-                  (fn [backgrounds]
-                    (let [new-background (peek backgrounds)]
-                      (apply conj [new-background] (pop backgrounds))))))))
-
-(q/defcomponent Clock
-  [date]
-  (dom/div {:className "clock"
-            :style {:background (first (:backgrounds @data))}
-            :onClick change-background}
-    (dom/div {:className "clock__time"}
-      (dom/span {:className "clock__hour"} (get date 0))
-      (dom/span {:className "clock__minute"} ":" (get date 1))
-      (dom/span {:className "clock__second"} ":" (get date 2)))))
-
 (defn render []
-  (let [date (current-time (js/Date.))]
-    (set! (.-title js/document) (string/join ":" date))
-    (q/render (Clock date) (gdom/getElement "app"))))
+  (let [now (current-time (js/Date.))]
+    (swap! data #(update-in % [:current-time] (fn [_] now)))
+    (q/render (app/App @data clock/Clock data) (gdom/getElement "app"))))
 
 (defn init []
   (render)
