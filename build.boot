@@ -10,7 +10,8 @@
                     [pandeiro/boot-http        "0.6.3"]
                     [mathias/boot-sassc        "0.1.5"]
                     [boot-fingerprint          "0.1.1-SNAPSHOT"]
-                    [secretary                 "1.2.3"]])
+                    [secretary                 "1.2.3"]
+                    [markdown-clj              "0.9.74"]])
 
 (require
   '[adzerk.boot-cljs      :refer :all]
@@ -33,7 +34,7 @@
         (reload)
         (sass)
         (cljs)
-        (fingerprint)))
+        (fingerprint :skip true)))
 
 (deftask deploy
   "Deploy to divshot"
