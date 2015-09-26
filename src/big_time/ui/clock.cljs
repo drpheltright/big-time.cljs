@@ -1,7 +1,6 @@
 (ns big-time.ui.clock
   (:require [quiescent.core :as q]
             [quiescent.dom :as dom]
-            [goog.dom :as gdom]
             [clojure.string :as string]
             [big-time.ui.app :as app]))
 
@@ -30,10 +29,9 @@
 (defn- render-tick [data]
   (let [now (current-time (js/Date.))]
     (swap! data #(assoc % :current-time now))
-    (q/render (app/App @data Clock data) (gdom/getElement "app"))
     (if (true? (:ticking @data))
+    (app/render Clock data)
       (.requestAnimationFrame js/window (partial render-tick data)))))
 
 (defn render [data]
-  (swap! data #(assoc % :ticking true))
   (render-tick data))
