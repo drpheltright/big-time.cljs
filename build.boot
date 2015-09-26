@@ -1,5 +1,5 @@
 (set-env!
-  :source-paths #{"resources/sass" "src"}
+  :source-paths #{"sass" "src"}
   :resource-paths #{"resources"}
   :dependencies '[[org.clojure/clojurescript "1.7.48"]
                   [quiescent                 "0.2.0-RC2"]
