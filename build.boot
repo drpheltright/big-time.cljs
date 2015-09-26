@@ -1,14 +1,14 @@
 (set-env!
-  :source-paths #{"sass" "src"}
+  :source-paths   #{"sass" "src"}
   :resource-paths #{"resources"}
-  :dependencies '[[org.clojure/clojurescript "1.7.48"]
-                  [quiescent                 "0.2.0-RC2"]
-                  [adzerk/boot-cljs          "1.7.48-4"]
-                  [adzerk/boot-cljs-repl     "0.1.10-SNAPSHOT"]
-                  [adzerk/boot-reload        "0.3.2"]
-                  [pandeiro/boot-http        "0.6.3"]
-                  [mathias/boot-sassc        "0.1.5"]
-                  [secretary                 "1.2.3"]])
+  :dependencies   '[[org.clojure/clojurescript "1.7.48"]
+                    [quiescent                 "0.2.0-RC2"]
+                    [adzerk/boot-cljs          "1.7.48-4"]
+                    [adzerk/boot-cljs-repl     "0.1.10-SNAPSHOT"]
+                    [adzerk/boot-reload        "0.3.2"]
+                    [pandeiro/boot-http        "0.6.3"]
+                    [mathias/boot-sassc        "0.1.5"]
+                    [secretary                 "1.2.3"]])
 
 (require
   '[adzerk.boot-cljs      :refer :all]
