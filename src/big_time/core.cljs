@@ -1,30 +1,24 @@
 (ns big-time.core
-  (:require [quiescent.core :as q]
-            [quiescent.dom :as dom]
-            [goog.dom :as gdom]
-            [big-time.ui.app :as app]
-            [big-time.ui.clock :as clock]))
+  (:require [goog.events :as events]
+            [secretary.core :as secretary]
+            [big-time.ui.clock :as clock]
+            [big-time.ui.pages :as pages])
+  (:import [goog History]
+           [goog.history EventType]))
 
 (enable-console-print!)
 
 (def data (atom {:backgrounds [:red :blue :green]
-                 :current-time nil}))
+                 :current-time nil
+                 :ticking false}))
 
-(defn time-str [int]
-  (if (= (count (str int)) 1)
-    (str "0" int)
-    (str int)))
+(secretary/set-config! :prefix "#")
 
-(defn current-time [date]
-  [(time-str (.getHours date))
-   (time-str (.getMinutes date))
-   (time-str (.getSeconds date))])
+(secretary/defroute clock-path "/" [] (clock/render data))
+(secretary/defroute about-path "/about" [] (pages/render-about data))
 
-(defn render []
-  (let [now (current-time (js/Date.))]
-    (swap! data #(update-in % [:current-time] (fn [_] now)))
-    (q/render (app/App @data clock/Clock data) (gdom/getElement "app"))))
+(let [history (History.)]
+  (events/listen history EventType.NAVIGATE
+    #(secretary/dispatch! (.-token %)))
 
-(defn init []
-  (render)
-  (.requestAnimationFrame js/window init))
+  (.setEnabled history true))

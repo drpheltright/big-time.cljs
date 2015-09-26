@@ -4,22 +4,26 @@
   :dependencies '[[org.clojure/clojurescript "1.7.48"]
                   [quiescent                 "0.2.0-RC2"]
                   [adzerk/boot-cljs          "1.7.48-4"]
-                  [adzerk/boot-cljs-repl     "0.1.9"]
+                  [adzerk/boot-cljs-repl     "0.1.10-SNAPSHOT"]
                   [adzerk/boot-reload        "0.3.2"]
-                  [mathias/boot-sassc        "0.1.5"]])
+                  [pandeiro/boot-http        "0.6.3"]
+                  [mathias/boot-sassc        "0.1.5"]
+                  [secretary                 "1.2.3"]])
 
 (require
   '[adzerk.boot-cljs      :refer :all]
   '[adzerk.boot-cljs-repl :refer :all]
   '[adzerk.boot-reload    :refer :all]
+  '[pandeiro.boot-http    :refer :all]
   '[mathias.boot-sassc    :refer :all])
 
 (deftask dev
   "Build cljs example for development."
   []
-  (comp (watch)
+  (comp (serve)
+        (watch)
         (sass)
-        (reload :on-jsload 'big-time.core/init)
+        (reload)
         (cljs-repl)
         (cljs)))
 
