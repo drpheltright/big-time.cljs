@@ -29,8 +29,8 @@
 (defn- render-tick [data]
   (let [now (current-time (js/Date.))]
     (swap! data #(assoc % :current-time now))
-    (if (true? (:ticking @data))
     (app/render Clock data)
+    (if (= (:path @data) "/")
       (.requestAnimationFrame js/window (partial render-tick data)))))
 
 (defn render [data]

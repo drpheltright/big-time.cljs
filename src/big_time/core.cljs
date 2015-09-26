@@ -10,7 +10,7 @@
 
 (def data (atom {:backgrounds [:red :blue :green]
                  :current-time nil
-                 :ticking false}))
+                 :path nil}))
 
 (secretary/set-config! :prefix "#")
 
@@ -19,6 +19,8 @@
 
 (let [history (History.)]
   (events/listen history EventType.NAVIGATE
-    #(secretary/dispatch! (.-token %)))
+    (fn [e]
+      (swap! data assoc :path (if (= (.-token e) "") "/" (.-token e)))
+      (secretary/dispatch! (.-token e))))
 
   (.setEnabled history true))
