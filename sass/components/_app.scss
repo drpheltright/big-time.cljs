@@ -1,0 +1,14 @@
+#app,
+.app {
+  height: 100%;
+}
+
+.app__nav {
+  text-align: center;
+
+  a {
+    color: white;
+    display: inline-block;
+    padding: 2em;
+  }
+}
