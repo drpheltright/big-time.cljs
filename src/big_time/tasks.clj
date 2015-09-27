@@ -9,9 +9,8 @@
       (let [changed (b/fileset-diff @prev fileset)
             changed-paths (map #(:path %) (b/input-files changed))
             md-paths (filter #(.endsWith % ".md") changed-paths)]
-        (if-not (empty? md-paths)
-          (do
-            (println "Markdown changed:" md-paths)
-            (spit "src/big_time/markdown.clj" "" :append true)))
+        (when-not (empty? md-paths)
+          (println "Markdown changed:" md-paths)
+          (spit "src/big_time/markdown.clj" "" :append true))
         (reset! prev fileset)))))
 
