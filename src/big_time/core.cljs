@@ -8,7 +8,7 @@
 
 (enable-console-print!)
 
-(def data (atom {:backgrounds [:red :blue :green]
+(def data (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
                  :current-time nil
                  :path nil}))
 
