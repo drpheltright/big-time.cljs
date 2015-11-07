@@ -21,7 +21,7 @@
   (events/listen history EventType.NAVIGATE
     (fn [e]
       (let [token (.-token e)]
-        (swap! data assoc :path (empty? token) "/" token)
+        (swap! data assoc :path (if (empty? token) "/" token))
         (secretary/dispatch! token))))
 
   (.setEnabled history true))
