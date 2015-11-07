@@ -27,6 +27,9 @@ On Mac you can get all these with brew:
 brew install leiningen boot-clj sassc
 ```
 
+That's all you need to do. Now follow the instructions below to start
+developing :)
+
 ## Development
 
 To start developing simply run:
