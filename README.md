@@ -14,6 +14,19 @@ This boot environment gives us:
  - Sass compilation
  - Deployment to divshot
 
+## Setting up
+
+You will need a JDK installed. Download one here:
+
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+You will also need `lein`, `boot` and `sassc` to develop on this project.
+On Mac you can get all these with brew:
+
+```
+brew install leiningen boot-clj sassc
+```
+
 ## Development
 
 To start developing simply run:
