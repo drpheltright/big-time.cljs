@@ -3,11 +3,11 @@
             [quiescent.dom :as dom]
             [goog.dom :as gdom]))
 
-(defn change-background [data _]
-  (swap! data #(update-in % [:backgrounds]
-                 (fn [backgrounds]
-                   (let [new-background (peek backgrounds)]
-                     (apply conj [new-background] (pop backgrounds)))))))
+(defn change-background [data-atom _]
+  (swap! data-atom #(update-in % [:backgrounds]
+                     (fn [backgrounds]
+                       (let [new-background (peek backgrounds)]
+                         (apply conj [new-background] (pop backgrounds)))))))
 
 (q/defcomponent App
   :name "App"
@@ -17,8 +17,9 @@
             :onClick (partial change-background data-atom)}
     (dom/nav {:className "app__nav"}
       (dom/a {:href "#/"} "clock")
+      (dom/a {:href "#/countdown"} "countdown")
       (dom/a {:href "#/about"} "about"))
     (InnerComponent data data-atom)))
 
-(defn render [InnerComponent data]
-  (q/render (App @data InnerComponent data) (gdom/getElement "app")))
+(defn render [InnerComponent data-atom]
+  (q/render (App @data-atom InnerComponent data-atom) (gdom/getElement "app")))

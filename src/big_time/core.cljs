@@ -8,20 +8,20 @@
 
 (enable-console-print!)
 
-(def data (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
-                 :current-time nil
-                 :path nil}))
+(def data-atom (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
+                      :current-time nil
+                      :path nil}))
 
 (secretary/set-config! :prefix "#")
 
-(secretary/defroute clock-path "/" [] (clock/render data))
-(secretary/defroute about-path "/about" [] (pages/render-about data))
+(secretary/defroute clock-path "/" [] (clock/render data-atom))
+(secretary/defroute about-path "/about" [] (pages/render-about data-atom))
 
 (let [history (History.)]
   (events/listen history EventType.NAVIGATE
     (fn [e]
       (let [token (.-token e)]
-        (swap! data assoc :path (if (empty? token) "/" token))
+        (swap! data-atom assoc :path (if (empty? token) "/" token))
         (secretary/dispatch! token))))
 
   (.setEnabled history true))
