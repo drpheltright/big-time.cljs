@@ -18,7 +18,7 @@
     (dom/nav {:className "app__nav"}
       (dom/a {:href "#/"} "clock")
       (dom/a {:href "#/about"} "about"))
-    (InnerComponent data)))
+    (InnerComponent data data-atom)))
 
 (defn render [InnerComponent data]
   (q/render (App @data InnerComponent data) (gdom/getElement "app")))
