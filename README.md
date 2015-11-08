@@ -12,7 +12,7 @@ This boot environment gives us:
  - Hot loading
  - Repl
  - Sass compilation
- - Deployment to divshot
+ - Deployment to firebase
 
 ## Setting up
 
