@@ -1,8 +1,7 @@
 (ns big-time.ui.clock
   (:require [quiescent.core :as q]
             [quiescent.dom :as dom]
-            [clojure.string :as string]
-            [big-time.ui.app :as app]))
+            [clojure.string :as string]))
 
 (declare Clock)
 
