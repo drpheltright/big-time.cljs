@@ -50,9 +50,9 @@
 ; History will update application state :path everytime URL changes
 ;
 (let [history (History.)]
-(events/listen history EventType.NAVIGATE
-(fn [e]
-(let [token (.-token e)]
-  (swap! data-atom assoc :path (if (empty? token) "/" token)))))
+  (events/listen history EventType.NAVIGATE
+    (fn [e]
+      (let [token (.-token e)]
+        (swap! data-atom assoc :path (if (empty? token) "/" token)))))
 
 (.setEnabled history true))
