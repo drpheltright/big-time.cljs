@@ -38,7 +38,7 @@
 (add-watch data-atom :path-dispatcher
   (fn [key data-atom state next-state]
     (if (not= (:path state) (:path next-state))
-      (if-let [page-component (:handler (bidi/match-route routes/routes (:path next-state)))]
+      (if-let [page-component (routes/path->component (:path next-state))]
         (swap! data-atom assoc :page-component page-component)))))
 
 ; History will update application state :path everytime URL changes
