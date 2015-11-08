@@ -1,7 +1,6 @@
 (ns big-time.ui.app
   (:require [quiescent.core :as q]
-            [quiescent.dom :as dom]
-            [goog.dom :as gdom]))
+            [quiescent.dom :as dom]))
 
 (defn change-background [data-atom _]
   (swap! data-atom #(update-in % [:backgrounds]
@@ -19,6 +18,3 @@
       (dom/a {:href "#/"} "clock")
       (dom/a {:href "#/about"} "about"))
     (InnerComponent data data-atom)))
-
-(defn render [InnerComponent data-atom]
-  (q/render (App @data-atom InnerComponent data-atom) (gdom/getElement "app")))

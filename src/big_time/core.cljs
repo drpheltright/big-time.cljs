@@ -1,8 +1,11 @@
 (ns big-time.core
   (:require [goog.events :as events]
             [secretary.core :as secretary]
+            [quiescent.core :as q]
+            [goog.dom :as gdom]
             [big-time.ui.app :as app]
             [big-time.ui.clock :as clock]
+            [big-time.ui.countdown :as countdown]
             [big-time.ui.pages :as pages])
   (:import [goog History]
            [goog.history EventType]))
@@ -28,7 +31,7 @@
 (add-watch data-atom :re-renderer
   (fn [key data-atom state next-state]
     (if-let [component (:page-component next-state)]
-      (app/render component data-atom))))
+      (q/render (app/App @data-atom component data-atom) (gdom/getElement "app")))))
 
 ; Everytime application state :path changes we dispatch secretary.
 ; Secretary will then update application state :page-component
