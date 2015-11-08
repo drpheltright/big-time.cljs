@@ -42,4 +42,4 @@
   (comp (sass :output-style "compressed")
         (cljs :optimizations :advanced)
         (with-post-wrap fileset
-          (dosh "divshot" "push" "production"))))
+          (dosh "firebase" "deploy"))))

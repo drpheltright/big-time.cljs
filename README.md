@@ -2,7 +2,7 @@
 
 An example .cljs application built with boot.
 
-http://big-time.divshot.io/
+https://big-time.firebaseapp.com/
 
 ## The stack
 
@@ -42,10 +42,19 @@ Then open target/index.html in a browser (no web server yet).
 
 ## Deployment
 
-Deploying to divshot is as simple as:
+This app is setup to deploy via firebase. You will need the node js
+command line client for firebase for this to work. Install with:
+
+```
+npm install -g firebase-tools
+```
+
+Also ensure `firebase.json` points to your firebase account.
+
+Deploying to firebase is as simple as:
 
 ```
 boot deploy
 ```
 
-You will need to be authorized with divshot.
+You will need to be authorized with firebase.
