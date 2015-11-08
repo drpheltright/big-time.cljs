@@ -4,6 +4,8 @@
             [clojure.string :as string]
             [big-time.ui.app :as app]))
 
+(declare Clock)
+
 (defn- time-str [int]
   (if (= (count (str int)) 1)
     (str "0" int)
@@ -17,7 +19,7 @@
 (defn- render-tick [data-atom]
   (let [now (current-time (js/Date.))]
     (swap! data-atom #(assoc % :current-time now))
-    (if (= (:path @data-atom) "/")
+    (if (= (:page-component @data-atom) Clock)
       (.setTimeout js/window (partial render-tick data-atom) 500))))
 
 (defn- set-doc-title-as-time [data]
