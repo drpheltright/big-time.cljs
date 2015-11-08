@@ -9,7 +9,8 @@
 
 (q/defcomponent Clock
   :name "Clock"
-  :on-render (fn [_ data] (set-doc-title-as-time data))
+  :on-mount #(render-tick %3)
+  :on-update #(set-doc-title-as-time %2)
   [data]
   (dom/div {:className "clock"}
     (dom/span {:className "clock__hour"} (get (:current-time data) 0))
@@ -26,12 +27,11 @@
    (time-str (.getMinutes date))
    (time-str (.getSeconds date))])
 
-(defn- render-tick [data]
+(defn- render-tick [data-atom]
   (let [now (current-time (js/Date.))]
-    (swap! data #(assoc % :current-time now))
-    (app/render Clock data)
-    (if (= (:path @data) "/")
-      (.requestAnimationFrame js/window (partial render-tick data)))))
+    (swap! data-atom #(assoc % :current-time now))
+    (if (= (:path @data-atom) "/")
+      (.setTimeout js/window (partial render-tick data-atom) 500))))
 
-(defn render [data]
-  (render-tick data))
+(defn render [data-atom]
+  (app/render Clock data-atom))

@@ -12,6 +12,10 @@
                       :current-time nil
                       :path nil}))
 
+(add-watch data-atom :re-renderer
+  (fn [key data-atom state next-state]
+    (secretary/dispatch! (:path @data-atom))))
+
 (secretary/set-config! :prefix "#")
 
 (secretary/defroute clock-path "/" [] (clock/render data-atom))
