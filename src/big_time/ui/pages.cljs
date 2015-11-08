@@ -10,6 +10,3 @@
   [data]
   (dom/div {:className "page page--about"}
     (md/component "markdown/about.md")))
-
-(defn render-about [data]
-  (app/render About data))

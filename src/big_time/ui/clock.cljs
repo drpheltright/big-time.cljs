@@ -32,6 +32,3 @@
     (swap! data-atom #(assoc % :current-time now))
     (if (= (:path @data-atom) "/")
       (.setTimeout js/window (partial render-tick data-atom) 500))))
-
-(defn render [data-atom]
-  (app/render Clock data-atom))
