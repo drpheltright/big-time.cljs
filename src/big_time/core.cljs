@@ -55,4 +55,4 @@
       (let [token (.-token e)]
         (swap! data-atom assoc :path (if (empty? token) "/" token)))))
 
-(.setEnabled history true))
+  (.setEnabled history true))
