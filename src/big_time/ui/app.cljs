@@ -17,7 +17,6 @@
             :onClick (partial change-background data-atom)}
     (dom/nav {:className "app__nav"}
       (dom/a {:href "#/"} "clock")
-      (dom/a {:href "#/countdown"} "countdown")
       (dom/a {:href "#/about"} "about"))
     (InnerComponent data data-atom)))
 
