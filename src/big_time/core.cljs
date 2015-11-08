@@ -1,12 +1,10 @@
 (ns big-time.core
   (:require [goog.events :as events]
-            [secretary.core :as secretary]
+            [bidi.bidi :as bidi]
             [quiescent.core :as q]
             [goog.dom :as gdom]
             [big-time.ui.app :as app]
-            [big-time.ui.clock :as clock]
-            [big-time.ui.countdown :as countdown]
-            [big-time.ui.pages :as pages])
+            [big-time.routes :as routes])
   (:import [goog History]
            [goog.history EventType]))
 
@@ -21,9 +19,9 @@
 
 ; Just for logging application state changes
 ;
-(add-watch data-atom :path-logger
-  (fn [key data-atom state next-state]
-    (println next-state)))
+; (add-watch data-atom :path-logger
+;   (fn [key data-atom state next-state]
+;     (println next-state)))
 
 ; Rebuilds app everytime state changes provided it can find a page
 ; component to render.
@@ -40,15 +38,8 @@
 (add-watch data-atom :path-dispatcher
   (fn [key data-atom state next-state]
     (if (not= (:path state) (:path next-state))
-      (secretary/dispatch! (:path next-state)))))
-
-(secretary/set-config! :prefix "#")
-
-(secretary/defroute clock-path "/" []
-  (swap! data-atom assoc :page-component clock/Clock))
-
-(secretary/defroute about-path "/about" []
-  (swap! data-atom assoc :page-component pages/About))
+      (if-let [page-component (:handler (bidi/match-route routes/routes (:path next-state)))]
+        (swap! data-atom assoc :page-component page-component)))))
 
 ; History will update application state :path everytime URL changes
 ;

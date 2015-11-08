@@ -10,8 +10,8 @@
                   [adzerk/boot-reload        "0.3.2"]
                   [pandeiro/boot-http        "0.6.3"]
                   [mathias/boot-sassc        "0.1.5"]
-                  [secretary                 "1.2.3"]
-                  [markdown-clj              "0.9.74"]])
+                  [markdown-clj              "0.9.74"]
+                  [bidi                      "1.21.1"]])
 
 (require
   '[adzerk.boot-cljs            :refer :all]
