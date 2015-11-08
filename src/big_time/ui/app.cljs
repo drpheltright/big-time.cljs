@@ -1,6 +1,7 @@
 (ns big-time.ui.app
   (:require [quiescent.core :as q]
-            [quiescent.dom :as dom]))
+            [quiescent.dom :as dom]
+            [big-time.routes :as routes]))
 
 (defn change-background [data-atom _]
   (swap! data-atom #(update-in % [:backgrounds]
@@ -15,6 +16,7 @@
             :style {:background (first (:backgrounds data))}
             :onClick (partial change-background data-atom)}
     (dom/nav {:className "app__nav"}
-      (dom/a {:href "#/"} "clock")
-      (dom/a {:href "#/about"} "about"))
+      (dom/a {:href (routes/component->path :clock)} "clock")
+      (dom/a {:href (routes/component->path :countdown)} "countdown")
+      (dom/a {:href (routes/component->path :about)} "about"))
     (page-component data data-atom)))
