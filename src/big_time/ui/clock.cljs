@@ -7,16 +7,6 @@
 (defn- set-doc-title-as-time [data]
   (set! (.-title js/document) (string/join ":" (:current-time data))))
 
-(q/defcomponent Clock
-  :name "Clock"
-  :on-mount #(render-tick %3)
-  :on-update #(set-doc-title-as-time %2)
-  [data]
-  (dom/div {:className "clock"}
-    (dom/span {:className "clock__hour"} (get (:current-time data) 0))
-    (dom/span {:className "clock__minute"} ":" (get (:current-time data) 1))
-    (dom/span {:className "clock__second"} ":" (get (:current-time data) 2))))
-
 (defn- time-str [int]
   (if (= (count (str int)) 1)
     (str "0" int)
@@ -32,3 +22,13 @@
     (swap! data-atom #(assoc % :current-time now))
     (if (= (:path @data-atom) "/")
       (.setTimeout js/window (partial render-tick data-atom) 500))))
+
+(q/defcomponent Clock
+  :name "Clock"
+  :on-mount #(render-tick %3)
+  :on-update #(set-doc-title-as-time %2)
+  [data]
+  (dom/div {:className "clock"}
+    (dom/span {:className "clock__hour"} (get (:current-time data) 0))
+    (dom/span {:className "clock__minute"} ":" (get (:current-time data) 1))
+    (dom/span {:className "clock__second"} ":" (get (:current-time data) 2))))
