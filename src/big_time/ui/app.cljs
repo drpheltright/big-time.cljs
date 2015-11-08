@@ -10,11 +10,11 @@
 
 (q/defcomponent App
   :name "App"
-  [data InnerComponent data-atom]
+  [data page-component data-atom]
   (dom/div {:className "app"
             :style {:background (first (:backgrounds data))}
             :onClick (partial change-background data-atom)}
     (dom/nav {:className "app__nav"}
       (dom/a {:href "#/"} "clock")
       (dom/a {:href "#/about"} "about"))
-    (InnerComponent data data-atom)))
+    (page-component data data-atom)))

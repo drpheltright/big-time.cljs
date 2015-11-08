@@ -30,8 +30,8 @@
 ;
 (add-watch data-atom :re-renderer
   (fn [key data-atom state next-state]
-    (if-let [component (:page-component next-state)]
-      (q/render (app/App @data-atom component data-atom) (gdom/getElement "app")))))
+    (if-let [page-component (:page-component next-state)]
+      (q/render (app/App @data-atom page-component data-atom) (gdom/getElement "app")))))
 
 ; Everytime application state :path changes we dispatch secretary.
 ; Secretary will then update application state :page-component
