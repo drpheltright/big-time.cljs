@@ -30,16 +30,6 @@
     (if-let [component (:page-component next-state)]
       (app/render component data-atom))))
 
-; History will update application state :path everytime URL changes
-;
-(let [history (History.)]
-  (events/listen history EventType.NAVIGATE
-    (fn [e]
-      (let [token (.-token e)]
-        (swap! data-atom assoc :path (if (empty? token) "/" token)))))
-
-  (.setEnabled history true))
-
 ; Everytime application state :path changes we dispatch secretary.
 ; Secretary will then update application state :page-component
 ; which represents main page component for that URL.
@@ -56,3 +46,13 @@
 
 (secretary/defroute about-path "/about" []
   (swap! data-atom assoc :page-component pages/About))
+
+; History will update application state :path everytime URL changes
+;
+(let [history (History.)]
+(events/listen history EventType.NAVIGATE
+(fn [e]
+(let [token (.-token e)]
+  (swap! data-atom assoc :path (if (empty? token) "/" token)))))
+
+(.setEnabled history true))
