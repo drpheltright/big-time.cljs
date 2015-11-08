@@ -18,7 +18,6 @@
   (fn [key data-atom state next-state]
     (println next-state)))
 
-
 (add-watch data-atom :path-dispatcher
   (fn [key data-atom state next-state]
     (if (not= (:path state) (:path next-state))
