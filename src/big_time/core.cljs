@@ -4,6 +4,8 @@
             [quiescent.core :as q]
             [goog.dom :as gdom]
             [big-time.ui.app :as app]
+            [big-time.ui.clock :as clock]
+            [big-time.ui.pages :as pages]
             [big-time.routes :as routes])
   (:import [goog History]
            [goog.history EventType]))
@@ -14,7 +16,9 @@
 ;
 (def data-atom (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
                       :current-time nil
-                      :page-component nil
+                      :page nil
+                      :pages {:clock clock/Clock
+                              :about pages/About}
                       :path nil}))
 
 ; Just for logging application state changes
@@ -28,7 +32,7 @@
 ;
 (add-watch data-atom :re-renderer
   (fn [key data-atom state next-state]
-    (if-let [page-component (:page-component next-state)]
+    (if-let [page-component (:page next-state)]
       (q/render (app/App @data-atom page-component data-atom) (gdom/getElement "app")))))
 
 ; Everytime application state :path changes we dispatch secretary.
@@ -38,8 +42,8 @@
 (add-watch data-atom :path-dispatcher
   (fn [key data-atom state next-state]
     (if (not= (:path state) (:path next-state))
-      (if-let [page-component (routes/path->component (:path next-state))]
-        (swap! data-atom assoc :page-component page-component)))))
+      (if-let [page-component (get (:pages next-state) (routes/path->component (:path next-state)))]
+        (swap! data-atom assoc :page page-component)))))
 
 ; History will update application state :path everytime URL changes
 ;

@@ -18,7 +18,7 @@
 (defn- render-tick [data-atom]
   (let [now (current-time (js/Date.))]
     (swap! data-atom #(assoc % :current-time now))
-    (if (= (:page-component @data-atom) Clock)
+    (if (= (:page @data-atom) Clock)
       (.setTimeout js/window (partial render-tick data-atom) 500))))
 
 (defn- set-doc-title-as-time [data]
