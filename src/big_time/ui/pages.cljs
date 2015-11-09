@@ -1,7 +1,7 @@
 (ns big-time.ui.pages
   (:require [quiescent.core :as q]
             [quiescent.dom :as dom])
-  (:require-macros [big-time.markdown :as md]))
+  (:require-macros [big-time.util.markdown :as md]))
 
 (q/defcomponent About
   :name "About"
