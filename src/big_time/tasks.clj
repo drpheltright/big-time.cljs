@@ -13,4 +13,3 @@
           (println "Markdown changed:" md-paths)
           (spit "src/big_time/markdown.clj" "" :append true))
         (reset! prev fileset)))))
-
