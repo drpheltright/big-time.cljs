@@ -5,6 +5,7 @@
             [goog.dom :as gdom]
             [big-time.ui.app :as app]
             [big-time.ui.clock :as clock]
+            [big-time.ui.countdown :as countdown]
             [big-time.ui.pages :as pages]
             [big-time.routes :as routes])
   (:import [goog History]
@@ -15,9 +16,12 @@
 ; Default application state
 ;
 (def data-atom (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
+                      :countdown {:form {:hours "00" :minutes "00" :seconds "00"}
+                                  :time ["00" "00" "00"]}
                       :current-time ["00" "00" "00"]
                       :page nil
                       :pages {:clock clock/TickingClock
+                              :countdown countdown/Countdown
                               :about pages/About}
                       :path nil}))
 

@@ -3,6 +3,7 @@
 
 (def routes
   ["/" {"" :clock
+        "countdown" :countdown
         "about" :about}])
 
 (defn path->component [path]
