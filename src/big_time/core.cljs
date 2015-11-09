@@ -15,9 +15,9 @@
 ; Default application state
 ;
 (def data-atom (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
-                      :current-time nil
+                      :current-time ["00" "00" "00"]
                       :page nil
-                      :pages {:clock clock/Clock
+                      :pages {:clock clock/TickingClock
                               :about pages/About}
                       :path nil}))
 
