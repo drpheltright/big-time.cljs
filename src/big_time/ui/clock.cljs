@@ -19,7 +19,6 @@
   :name "Clock"
   [time]
   (let [[hours minutes seconds] time]
-    (println hours minutes seconds)
     (dom/div {:className "clock"}
       (dom/span {:className "clock__hour"} hours)
       (dom/span {:className "clock__minute"} ":" minutes)
