@@ -11,5 +11,5 @@
             md-paths (filter #(.endsWith % ".md") changed-paths)]
         (when-not (empty? md-paths)
           (println "Markdown changed:" md-paths)
-          (spit "src/big_time/markdown.clj" "" :append true))
+          (spit "src/big_time/util/markdown.clj" "" :append true))
         (reset! prev fileset)))))
