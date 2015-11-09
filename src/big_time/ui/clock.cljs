@@ -15,18 +15,18 @@
    (time-str (.getMinutes date))
    (time-str (.getSeconds date))])
 
-(defn- render-tick [data-atom]
+(defn- tick [data-atom]
   (let [now (current-time (js/Date.))]
     (swap! data-atom #(assoc % :current-time now))
     (if (= (:page @data-atom) Clock)
-      (.setTimeout js/window (partial render-tick data-atom) 500))))
+      (.setTimeout js/window (partial tick data-atom) 500))))
 
 (defn- set-doc-title-as-time [data]
   (set! (.-title js/document) (string/join ":" (:current-time data))))
 
 (q/defcomponent Clock
   :name "Clock"
-  :on-mount #(render-tick %3)
+  :on-mount #(tick %3)
   :on-update #(set-doc-title-as-time %2)
   [data]
   (dom/div {:className "clock"}
