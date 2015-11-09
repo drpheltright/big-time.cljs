@@ -8,7 +8,7 @@
 
 (defn- tick [data-atom]
   (let [time-vector (time/current-time-vector)]
-    (swap! data-atom #(assoc % :current-time time-vector))
+    (swap! data-atom assoc :current-time time-vector)
     (if (= (:page @data-atom) Clock)
       (.setTimeout js/window (partial tick data-atom) 500))))
 
