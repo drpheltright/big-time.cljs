@@ -28,5 +28,5 @@
   :name "TickingClock"
   :on-mount #(tick %3)
   :on-update #(set-doc-title-as-time %2)
-  [data]
+  [data data-atom]
   (Clock (:current-time data)))
