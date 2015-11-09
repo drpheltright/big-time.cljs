@@ -4,10 +4,10 @@
             [big-time.routes :as routes]))
 
 (defn change-background [data-atom _]
-  (swap! data-atom #(update-in % [:backgrounds]
-                     (fn [backgrounds]
-                       (let [new-background (peek backgrounds)]
-                         (apply conj [new-background] (pop backgrounds)))))))
+  (swap! data-atom update-in [:backgrounds]
+    (fn [backgrounds]
+      (let [new-background (peek backgrounds)]
+        (apply conj [new-background] (pop backgrounds))))))
 
 (q/defcomponent App
   :name "App"
