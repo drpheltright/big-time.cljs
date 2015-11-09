@@ -1,23 +1,14 @@
 (ns big-time.ui.clock
   (:require [quiescent.core :as q]
             [quiescent.dom :as dom]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [big-time.util.time :as time]))
 
 (declare Clock)
 
-(defn- time-str [int]
-  (if (= (count (str int)) 1)
-    (str "0" int)
-    (str int)))
-
-(defn- current-time [date]
-  [(time-str (.getHours date))
-   (time-str (.getMinutes date))
-   (time-str (.getSeconds date))])
-
 (defn- tick [data-atom]
-  (let [now (current-time (js/Date.))]
-    (swap! data-atom #(assoc % :current-time now))
+  (let [time-vector (time/current-time-vector)]
+    (swap! data-atom #(assoc % :current-time time-vector))
     (if (= (:page @data-atom) Clock)
       (.setTimeout js/window (partial tick data-atom) 500))))
 
