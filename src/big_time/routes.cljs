@@ -2,7 +2,7 @@
   (:require [bidi.bidi :as bidi]))
 
 (def routes
-  ["/" {"" :clock
+  ["/" {"" :time
         "countdown" :countdown
         "about" :about}])
 

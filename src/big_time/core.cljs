@@ -4,7 +4,7 @@
             [quiescent.core :as q]
             [goog.dom :as gdom]
             [big-time.ui.app :as app]
-            [big-time.ui.clock :as clock]
+            [big-time.ui.time :as time]
             [big-time.ui.countdown :as countdown]
             [big-time.ui.pages :as pages]
             [big-time.routes :as routes])
@@ -20,7 +20,7 @@
                                   :time ["00" "00" "00"]}
                       :current-time ["00" "00" "00"]
                       :page nil
-                      :pages {:clock clock/TickingClock
+                      :pages {:time time/Time
                               :countdown countdown/Countdown
                               :about pages/About}
                       :path nil}))
