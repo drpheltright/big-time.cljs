@@ -16,8 +16,10 @@
 ; Default application state
 ;
 (def data-atom (atom {:backgrounds [:#79BD9A :#3B8686 :#0B486B]
-                      :countdown {:form {:hours "00" :minutes "00" :seconds "00"}
-                                  :time ["00" "00" "00"]}
+                      :countdown {:form {:hours "00" :minutes "10" :seconds "00"}
+                                  :duration 0
+                                  :start-time nil
+                                  :current-time ["00" "00" "00"]}
                       :current-time ["00" "00" "00"]
                       :page nil
                       :pages {:time time/Time
