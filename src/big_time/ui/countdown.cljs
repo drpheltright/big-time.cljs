@@ -8,8 +8,8 @@
 (defn- start-countdown [data-atom e]
   (.preventDefault e)
   (let [time-vector (vals (get-in @data-atom [:countdown :form]))]
-    (swap! data-atom assoc-in [:countdown :start-time] (time/now))
-    (swap! data-atom assoc-in [:countdown :duration] (time/vector->seconds time-vector))))
+    (swap! data-atom update-in [:countdown] assoc :start-time (time/now)
+                                                  :duration (time/vector->seconds time-vector))))
 
 (defn- set-form-time [field data-atom e]
   (let [value (.. e -target -value)]
@@ -17,6 +17,9 @@
 
 (defn- get-form-time [field data]
   (get-in data [:countdown :form field]))
+
+(defn- counting-down? [data]
+  (not (nil? (get-in data [:countdown :start-time]))))
 
 (q/defcomponent CountdownForm
   :name "CountdownForm"
@@ -42,21 +45,17 @@
 
 (declare Countdown)
 
-(defn- tick [data-atom start-time current-time duration]
-  (let [end-time (js/Date. start-time)
-        end-time-seconds (.setSeconds end-time (+ (.getSeconds start-time) duration))
-        seconds-left (/ (- (.getTime end-time) (.getTime (time/now))) 1000)]
+(defn- tick [data data-atom]
+  (let [{:keys [start-time duration]} (:countdown data)
+        seconds-left (time/seconds-left start-time duration)]
     (when (> seconds-left 0)
       (swap! data-atom assoc-in [:countdown :current-time] (time/seconds->vector seconds-left))
-      (if (= (:page @data-atom) Countdown)
-        (.setTimeout js/window (partial tick data-atom start-time current-time duration) 1000)))))
+      (if (= (:page data) Countdown)
+        (.setTimeout js/window (partial tick data data-atom) 1000)))))
 
 (q/defcomponent Countdown
   :name "Countdown"
   [data data-atom]
-  (let [start-time (get-in data [:countdown :start-time])
-        current-time (get-in data [:countdown :current-time])
-        duration (get-in data [:countdown :duration])]
-    (if-not (nil? start-time)
-      (clock/Clock current-time (partial tick data-atom start-time current-time duration))
-      (CountdownForm data data-atom))))
+  (if (counting-down? data)
+    (clock/Clock (get-in data [:countdown :current-time]) (partial tick data data-atom))
+    (CountdownForm data data-atom)))

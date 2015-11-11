@@ -23,5 +23,19 @@
 (defn now []
   (js/Date.))
 
+(defn- duplicate [time]
+  (js/Date. time))
+
+(defn- add-seconds [time seconds]
+  (let [new-time (duplicate time)]
+    (.setSeconds new-time (+ (.getSeconds time) seconds))
+    new-time))
+
+(defn- seconds-until [time]
+  (/ (- (.getTime time) (.getTime (now))) 1000))
+
+(defn seconds-left [start-time duration]
+  (seconds-until (add-seconds start-time duration)))
+
 (defn current-time-vector []
   (date->vector (now)))
