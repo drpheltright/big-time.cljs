@@ -1,1 +1,2 @@
-{:require  [big-time.core]}
+{:require [big-time.core]
+ :init-fns [big-time.core/init]}
