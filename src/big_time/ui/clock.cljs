@@ -3,8 +3,8 @@
             [quiescent.dom :as dom]
             [clojure.string :as string]))
 
-(defn- set-doc-title-as-time [data]
-  (set! (.-title js/document) (string/join ":" (:current-time data))))
+(defn- set-doc-title-as-time [time]
+  (set! (.-title js/document) (string/join ":" time)))
 
 (q/defcomponent Clock
   :name "Clock"
