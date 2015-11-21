@@ -35,7 +35,8 @@
   (/ (- (.getTime time) (.getTime (now))) 1000))
 
 (defn seconds-left [start-time duration]
-  (seconds-until (add-seconds start-time duration)))
+  (if start-time
+    (seconds-until (add-seconds start-time duration))))
 
 (defn current-time-vector []
   (date->vector (now)))

@@ -8,9 +8,8 @@
 
 (q/defcomponent Clock
   :name "Clock"
-  :on-mount #(%3)
   :on-update #(set-doc-title-as-time %2)
-  [time tick-fn]
+  [time]
   (let [[hours minutes seconds] time]
     (dom/div {:className "clock"}
       (dom/span {:className "clock__hour"} hours)

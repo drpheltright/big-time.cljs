@@ -7,7 +7,8 @@
             [big-time.ui.time :as time]
             [big-time.ui.countdown :as countdown]
             [big-time.ui.pages :as pages]
-            [big-time.routes :as routes])
+            [big-time.routes :as routes]
+            [big-time.util.worker :as worker])
   (:import [goog History]
            [goog.history EventType]))
 
@@ -26,7 +27,10 @@
                         :pages {:time time/Time
                                 :countdown countdown/Countdown
                                 :about pages/About}
-                        :path nil}))
+                        :path nil
+                        :tasks {}}))
+
+  (worker/create #(vals (:tasks @data-atom)))
 
   ; Just for logging application state changes
   ;

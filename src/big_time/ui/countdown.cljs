@@ -5,11 +5,10 @@
             [big_time.ui.clock :as clock]
             [big_time.util.time :as time]))
 
-(defn- start-countdown [data-atom e]
-  (.preventDefault e)
-  (let [time-vector (vals (get-in @data-atom [:countdown :form]))]
-    (swap! data-atom update-in [:countdown] assoc :start-time (time/now)
-                                                  :duration (time/vector->seconds time-vector))))
+(declare Countdown)
+
+(defn- stop-tick [data-atom]
+  (swap! data-atom update :tasks dissoc :countdown-tick))
 
 (defn- set-form-time [field data-atom e]
   (let [value (.. e -target -value)]
@@ -20,6 +19,31 @@
 
 (defn- counting-down? [data]
   (not (nil? (get-in data [:countdown :start-time]))))
+
+(defn- stop-countdown [data-atom]
+  (swap! data-atom assoc-in [:countdown :start-time] nil))
+
+(defn- tick [data data-atom]
+  (let [{:keys [start-time duration]} (:countdown data)]
+    (if start-time
+      (let [seconds-left (time/seconds-left start-time duration)]
+        (if (> seconds-left 0)
+          (swap! data-atom assoc-in [:countdown :current-time] (time/seconds->vector seconds-left))
+          (do
+            (js/alert "Countdown complete!")
+            (stop-countdown data-atom))))
+      (stop-tick data-atom))))
+
+(defn- start-tick [data-atom]
+  (tick @data-atom data-atom)
+  (swap! data-atom update :tasks assoc :countdown-tick #(tick @data-atom data-atom)))
+
+(defn- start-countdown [data-atom e]
+  (.preventDefault e)
+  (let [time-vector (vals (get-in @data-atom [:countdown :form]))]
+    (swap! data-atom update-in [:countdown] assoc :start-time (time/now)
+                                                  :duration (time/vector->seconds time-vector))
+    (start-tick data-atom)))
 
 (q/defcomponent CountdownForm
   :name "CountdownForm"
@@ -43,19 +67,12 @@
     (dom/div {:className "countdown__field"}
       (dom/input {:type "submit" :value "Start clock"}))))
 
-(declare Countdown)
-
-(defn- tick [data data-atom]
-  (let [{:keys [start-time duration]} (:countdown data)
-        seconds-left (time/seconds-left start-time duration)]
-    (when (> seconds-left 0)
-      (swap! data-atom assoc-in [:countdown :current-time] (time/seconds->vector seconds-left))
-      (if (= (:page data) Countdown)
-        (.setTimeout js/window (partial tick data data-atom) 1000)))))
-
 (q/defcomponent Countdown
   :name "Countdown"
+  :on-mount #(start-tick %3)
   [data data-atom]
   (if (counting-down? data)
-    (clock/Clock (get-in data [:countdown :current-time]) (partial tick data data-atom))
+    (dom/div {}
+      (clock/Clock (get-in data [:countdown :current-time]))
+      (dom/button {:onClick (partial stop-countdown data-atom)} "stop countdown"))
     (CountdownForm data data-atom)))

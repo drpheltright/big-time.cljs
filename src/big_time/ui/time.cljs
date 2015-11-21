@@ -8,11 +8,18 @@
 
 (defn- tick [data-atom]
   (let [time-vector (time/current-time-vector)]
-    (swap! data-atom assoc :current-time time-vector)
-    (if (= (:page @data-atom) Time)
-      (.setTimeout js/window (partial tick data-atom) 500))))
+    (swap! data-atom assoc :current-time time-vector)))
+
+(defn- start-tick [data-atom]
+  (tick data-atom)
+  (swap! data-atom update :tasks assoc :time-tick #(tick data-atom)))
+
+(defn- stop-tick [data-atom]
+  (swap! data-atom update :tasks dissoc :time-tick))
 
 (q/defcomponent Time
   :name "Time"
+  :on-mount #(start-tick %3)
+  :on-unmount #(stop-tick %3)
   [data data-atom]
-  (clock/Clock (:current-time data) (partial tick data-atom)))
+  (clock/Clock (:current-time data)))
