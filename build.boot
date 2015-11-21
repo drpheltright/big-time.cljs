@@ -30,6 +30,7 @@
   []
   (comp (serve)
         (watch)
+        (speak)
         (cljs-repl)
         (reload)
         (markdown)
