@@ -23,15 +23,19 @@
 (defn- stop-countdown [data-atom]
   (swap! data-atom assoc-in [:countdown :start-time] nil))
 
+(defn- set-current-time [data-atom seconds-left]
+  (swap! data-atom assoc-in [:countdown :current-time] (time/seconds->vector seconds-left)))
+
+(defn- complete-countdown [data-atom]
+  (js/alert "Countdown complete!")
+  (stop-countdown data-atom))
+
 (defn- tick [data data-atom]
   (let [{:keys [start-time duration]} (:countdown data)]
     (if start-time
-      (let [seconds-left (time/seconds-left start-time duration)]
-        (if (> seconds-left 0)
-          (swap! data-atom assoc-in [:countdown :current-time] (time/seconds->vector seconds-left))
-          (do
-            (js/alert "Countdown complete!")
-            (stop-countdown data-atom))))
+      (if-let [seconds-left (time/seconds-left start-time duration)]
+        (set-current-time data-atom seconds-left)
+        (complete-countdown data-atom))
       (stop-tick data-atom))))
 
 (defn- start-tick [data-atom]

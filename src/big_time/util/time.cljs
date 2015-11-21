@@ -35,8 +35,10 @@
   (/ (- (.getTime time) (.getTime (now))) 1000))
 
 (defn seconds-left [start-time duration]
+  "Will return integer unless 0 seconds left in which case it will return nil"
   (if start-time
-    (seconds-until (add-seconds start-time duration))))
+    (let [seconds-left (seconds-until (add-seconds start-time duration))]
+      (when (> seconds-left 0) seconds-left))))
 
 (defn current-time-vector []
   (date->vector (now)))
