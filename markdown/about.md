@@ -1,6 +1,6 @@
 # About Big Time
 
-Built this client side app to learn a me some ClojureScript.
+Built this client side app to learn me some ClojureScript.
 
 Hello world :)
 
