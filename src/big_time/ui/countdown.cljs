@@ -10,9 +10,10 @@
 (defn- stop-tick [data-atom]
   (swap! data-atom update :tasks dissoc :countdown-tick))
 
-(defn- set-form-time [field data-atom e]
-  (let [value (.. e -target -value)]
-    (swap! data-atom assoc-in [:countdown :form field] value)))
+(defn- set-form-time [e data-atom]
+  (let [field (.. e -target -name)
+        value (.. e -target -value)]
+    (swap! data-atom assoc-in [:countdown :form (keyword field)] value)))
 
 (defn- get-form-time [field data]
   (get-in data [:countdown :form field]))
@@ -52,21 +53,22 @@
 (q/defcomponent CountdownForm
   :name "CountdownForm"
   [data data-atom]
-  (dom/form {:onSubmit (partial start-countdown data-atom)}
+  (dom/form {:onChange #(set-form-time % data-atom)
+             :onSubmit (partial start-countdown data-atom)}
     (dom/div {:className "countdown__field"}
       (dom/label {:forHtml "countdown_hours"} "Hours")
       (dom/input {:id "countdown_hours"
-                  :onChange (partial set-form-time :hours data-atom)
+                  :name :hours
                   :value (get-form-time :hours data)}))
     (dom/div {:className "countdown__field"}
       (dom/label {:forHtml "countdown_minute"} "Minutes")
       (dom/input {:id "countdown_minute"
-                  :onChange (partial set-form-time :minutes data-atom)
+                  :name :minutes
                   :value (get-form-time :minutes data)}))
     (dom/div {:className "countdown__field"}
       (dom/label {:forHtml "countdown_second"} "Seconds")
       (dom/input {:id "countdown_second"
-                  :onChange (partial set-form-time :seconds data-atom)
+                  :name :seconds
                   :value (get-form-time :seconds data)}))
     (dom/div {:className "countdown__field"}
       (dom/input {:type "submit" :value "Start clock"}))))
