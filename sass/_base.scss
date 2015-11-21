@@ -1,7 +1,7 @@
 body {
-  font: 18px sans-serif;
   background: rgb(11, 72, 107);
   color: white;
+  font: 18px sans-serif;
   margin: 0;
 }
 
@@ -10,4 +10,6 @@ body {
   height: 100%;
 }
 
-
+* {
+  box-sizing: border-box;
+}
