@@ -3,6 +3,7 @@
             [quiescent.dom :as dom]
             [clojure.string :as string]
             [big_time.ui.clock :as clock]
+            [big_time.ui.form :as form]
             [big_time.util.time :as time]))
 
 (declare Countdown)
@@ -55,21 +56,9 @@
   [data data-atom]
   (dom/form {:onChange #(set-form-time % data-atom)
              :onSubmit (partial start-countdown data-atom)}
-    (dom/div {:className "countdown__field"}
-      (dom/label {:forHtml "countdown_hours"} "Hours")
-      (dom/input {:id "countdown_hours"
-                  :name :hours
-                  :value (get-form-time :hours data)}))
-    (dom/div {:className "countdown__field"}
-      (dom/label {:forHtml "countdown_minute"} "Minutes")
-      (dom/input {:id "countdown_minute"
-                  :name :minutes
-                  :value (get-form-time :minutes data)}))
-    (dom/div {:className "countdown__field"}
-      (dom/label {:forHtml "countdown_second"} "Seconds")
-      (dom/input {:id "countdown_second"
-                  :name :seconds
-                  :value (get-form-time :seconds data)}))
+    (form/input :countdown :hours (get-form-time :hours data))
+    (form/input :countdown :minutes (get-form-time :minutes data))
+    (form/input :countdown :seconds (get-form-time :seconds data))
     (dom/div {:className "countdown__field"}
       (dom/input {:type "submit" :value "Start clock"}))))
 
