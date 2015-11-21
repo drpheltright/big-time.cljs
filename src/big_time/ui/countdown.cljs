@@ -68,5 +68,5 @@
   (if (counting-down? data)
     (dom/div {}
       (clock/Clock (get-in data [:countdown :current-time]))
-      (dom/button {:onClick (partial stop-countdown data-atom)} "stop countdown"))
+      (dom/button {:onClick (partial stop-countdown data-atom)} "Stop countdown"))
     (CountdownForm data data-atom)))
