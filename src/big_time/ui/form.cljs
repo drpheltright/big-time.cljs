@@ -10,3 +10,7 @@
           label (str (string/capitalize field))]
       [(dom/label {:forHtml id} label)
        (dom/input {:id id :name field :value value})])))
+
+(defn submit [label]
+  (dom/div {:className "field"}
+    (dom/input {:type "submit" :value label})))

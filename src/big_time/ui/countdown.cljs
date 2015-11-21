@@ -59,8 +59,7 @@
     (form/input :countdown :hours (get-form-time :hours data))
     (form/input :countdown :minutes (get-form-time :minutes data))
     (form/input :countdown :seconds (get-form-time :seconds data))
-    (dom/div {:className "countdown__field"}
-      (dom/input {:type "submit" :value "Start clock"}))))
+    (form/submit "Start countdown")))
 
 (q/defcomponent Countdown
   :name "Countdown"
