@@ -32,7 +32,7 @@
         (watch)
         (speak)
         (cljs-repl)
-        (reload)
+        (reload :on-jsload 'big-time.core/reload)
         (markdown)
         (sass)
         (cljs)))
