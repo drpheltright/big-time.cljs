@@ -26,3 +26,6 @@
 
 (defn set-current-time [data-atom seconds-left]
   (swap! data-atom assoc-in [:countdown :current-time] (time/seconds->vector seconds-left)))
+
+(defn get-current-time [data-atom]
+  (get-in @data-atom [:countdown :current-time]))
