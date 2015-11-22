@@ -35,7 +35,7 @@
           (handle-complete)))
       (deregister-tick data-atom))))
 
-(defn start-tick [data-atom handle-complete]
+(defn- start-tick [data-atom handle-complete]
   (letfn [(composed-tick [] (tick data-atom handle-complete))]
     (composed-tick)
     (register-tick data-atom composed-tick)))
@@ -45,3 +45,6 @@
     (swap! data-atom update-in [:countdown] assoc :start-time (time/now)
                                                   :duration (time/vector->seconds time-vector))
     (start-tick data-atom handle-complete)))
+
+(defn check-for-countdown [data-atom handle-complete]
+  (start-tick data-atom handle-complete))

@@ -18,7 +18,7 @@
   (data/start-countdown data-atom handle-countdown-complete))
 
 (defn- handle-mount [data-atom]
-  (data/start-tick data-atom handle-countdown-complete))
+  (data/check-for-countdown data-atom handle-countdown-complete))
 
 (defn- handle-stop-countdown [data-atom]
   (data/stop-countdown data-atom))
