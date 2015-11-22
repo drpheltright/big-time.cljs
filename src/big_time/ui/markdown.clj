@@ -1,4 +1,4 @@
-(ns big-time.util.markdown
+(ns big-time.ui.markdown
   (:require [markdown.core :refer [md-to-html-string]])
   (:import [java.io StringWriter]))
 
