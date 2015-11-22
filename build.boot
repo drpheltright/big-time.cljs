@@ -19,7 +19,7 @@
   '[adzerk.boot-reload          :refer :all]
   '[pandeiro.boot-http          :refer :all]
   '[mathias.boot-sassc          :refer :all]
-  '[big-time.tasks              :refer :all])
+  '[big-time.dev.tasks          :refer :all])
 
 (task-options!
   sass {:sass-file "main.scss"
