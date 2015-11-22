@@ -7,5 +7,5 @@
   :name "Time"
   :on-mount #(data/start-tick %3)
   :on-unmount #(data/stop-tick %3)
-  [data data-atom]
+  [data store]
   (clock/Clock (:current-time data)))

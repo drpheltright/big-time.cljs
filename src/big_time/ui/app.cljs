@@ -5,10 +5,10 @@
 
 (q/defcomponent App
   :name "App"
-  [data page-component data-atom]
+  [data page-component store]
   (dom/div {:className "app"}
     (dom/nav {:className "app__nav"}
       (dom/a {:href (routes/component->path :clock)} "clock")
       (dom/a {:href (routes/component->path :countdown)} "countdown")
       (dom/a {:href (routes/component->path :about)} "about"))
-    (page-component data data-atom)))
+    (page-component data store)))

@@ -5,40 +5,40 @@
             [big_time.ui.form :as form]
             [big-time.data.countdown :as data]))
 
-(defn- handle-field-change [e data-atom]
+(defn- handle-field-change [e store]
   (let [field (.. e -target -name)
         value (.. e -target -value)]
-    (data/set-form-time data-atom (keyword field) value)))
+    (data/set-form-time store (keyword field) value)))
 
 (defn- handle-countdown-complete []
   (js/alert "Countdown complete!"))
 
-(defn- handle-form-submit [e data-atom]
+(defn- handle-form-submit [e store]
   (.preventDefault e)
-  (data/start-countdown data-atom handle-countdown-complete))
+  (data/start-countdown store handle-countdown-complete))
 
-(defn- handle-mount [data-atom]
-  (data/check-for-countdown data-atom handle-countdown-complete))
+(defn- handle-mount [store]
+  (data/check-for-countdown store handle-countdown-complete))
 
-(defn- handle-stop-countdown [data-atom]
-  (data/stop-countdown data-atom))
+(defn- handle-stop-countdown [store]
+  (data/stop-countdown store))
 
 (q/defcomponent CountdownForm
   :name "CountdownForm"
-  [data data-atom]
-  (dom/form {:onChange #(handle-field-change % data-atom)
-             :onSubmit #(handle-form-submit % data-atom)}
-    (form/input :countdown :hours (data/get-form-time data-atom :hours))
-    (form/input :countdown :minutes (data/get-form-time data-atom :minutes))
-    (form/input :countdown :seconds (data/get-form-time data-atom :seconds))
+  [data store]
+  (dom/form {:onChange #(handle-field-change % store)
+             :onSubmit #(handle-form-submit % store)}
+    (form/input :countdown :hours (data/get-form-time store :hours))
+    (form/input :countdown :minutes (data/get-form-time store :minutes))
+    (form/input :countdown :seconds (data/get-form-time store :seconds))
     (form/submit "Start countdown")))
 
 (q/defcomponent Countdown
   :name "Countdown"
   :on-mount #(handle-mount %3)
-  [data data-atom]
-  (if (data/counting-down? data-atom)
+  [data store]
+  (if (data/counting-down? store)
     (dom/div {}
-      (clock/Clock (data/get-current-time data-atom))
-      (dom/button {:onClick #(handle-stop-countdown data-atom)} "Stop countdown"))
-    (CountdownForm data data-atom)))
+      (clock/Clock (data/get-current-time store))
+      (dom/button {:onClick #(handle-stop-countdown store)} "Stop countdown"))
+    (CountdownForm data store)))

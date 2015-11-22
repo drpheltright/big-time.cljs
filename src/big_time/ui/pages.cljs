@@ -6,6 +6,6 @@
 (q/defcomponent About
   :name "About"
   :on-render #(set! (.-title js/document) "About")
-  [data data-atom]
+  [data store]
   (dom/div {:className "page page--about"}
     (md/component "markdown/about.md")))
