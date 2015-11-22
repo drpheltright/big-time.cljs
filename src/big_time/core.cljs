@@ -14,11 +14,15 @@
 
 
 (defn init []
-  (enable-console-print!)
+  "Initialises application"
   (println "Initialising application")
 
-  ; Default application state
-  ;
+  ;; Output println to console
+  ;;
+  (enable-console-print!)
+
+  ;; Default application state
+  ;;
   (def store (atom {:countdown {:form {:hours "00" :minutes "00" :seconds "10"}
                                 :duration 0
                                 :start-time nil
@@ -31,17 +35,19 @@
                     :path nil
                     :tasks {}}))
 
+  ;; Create a background worker instance
+  ;;
   (worker/create #(vals (:tasks @store)))
 
-  ; Just for logging application state changes
-  ;
-  ; (add-watch store :path-logger
-  ;   (fn [key store state next-state]
-  ;     (println next-state)))
+  ;; Just for logging application state changes
+  ;;
+  ;; (add-watch store :path-logger
+  ;;   (fn [key store state next-state]
+  ;;     (println next-state)))
 
-  ; Rebuilds app everytime state changes provided it can find a page
-  ; component to render.
-  ;
+  ;; Rebuilds app everytime state changes provided it can find a page
+  ;; component to render.
+  ;;
   (add-watch store :re-renderer
     (fn [key store state next-state]
       (if-let [page-component (:page next-state)]
@@ -49,18 +55,18 @@
           (println "Rendering application")
           (q/render (app/App @store page-component store) (gdom/getElement "app"))))))
 
-  ; Everytime application state :path changes we dispatch secretary.
-  ; Secretary will then update application state :page-component
-  ; which represents main page component for that URL.
-  ;
+  ;; Everytime application state :path changes we dispatch secretary.
+  ;; Secretary will then update application state :page-component
+  ;; which represents main page component for that URL.
+  ;;
   (add-watch store :path-dispatcher
     (fn [key store state next-state]
       (if (not= (:path state) (:path next-state))
         (if-let [page-component (get (:pages next-state) (routes/path->component (:path next-state)))]
           (swap! store assoc :page page-component)))))
 
-  ; History will update application state :path everytime URL changes
-  ;
+  ;; History will update application state :path everytime URL changes
+  ;;
   (let [history (History.)]
     (events/listen history EventType.NAVIGATE
       (fn [e]
@@ -69,6 +75,7 @@
     (.setEnabled history true)))
 
 (defn reload []
+  "Forces reload via changing application state"
   (let [now (js/Date.)]
     (println "Reloading application" (str now))
     (swap! store assoc :reload-time now)))
