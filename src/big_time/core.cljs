@@ -13,8 +13,10 @@
            [goog.history EventType]))
 
 
-(defn init []
+(defn init
   "Initialises application"
+  []
+
   (println "Initialising application")
 
   ;; Output println to console
@@ -74,8 +76,9 @@
           (swap! store assoc :path (if (empty? token) "/" token)))))
     (.setEnabled history true)))
 
-(defn reload []
+(defn reload
   "Forces reload via changing application state"
+  []
   (let [now (js/Date.)]
     (println "Reloading application" (str now))
     (swap! store assoc :reload-time now)))

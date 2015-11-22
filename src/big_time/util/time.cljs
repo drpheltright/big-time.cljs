@@ -34,8 +34,9 @@
 (defn- seconds-until [time]
   (/ (- (.getTime time) (.getTime (now))) 1000))
 
-(defn seconds-left [start-time duration]
+(defn seconds-left
   "Will return integer unless 0 seconds left in which case it will return nil"
+  [start-time duration]
   (if start-time
     (let [seconds-left (seconds-until (add-seconds start-time duration))]
       (when (> seconds-left 0) seconds-left))))
