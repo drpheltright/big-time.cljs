@@ -1,10 +1,8 @@
 (ns big-time.ui.countdown
   (:require [quiescent.core :as q]
             [quiescent.dom :as dom]
-            [clojure.string :as string]
             [big_time.ui.clock :as clock]
             [big_time.ui.form :as form]
-            [big_time.util.time :as time]
             [big-time.data.countdown :as data]))
 
 (defn- handle-field-change [e data-atom]
@@ -12,29 +10,15 @@
         value (.. e -target -value)]
     (data/set-form-time data-atom (keyword field) value)))
 
-(defn- complete-countdown [data-atom]
-  (js/alert "Countdown complete!")
-  (data/stop-countdown data-atom))
-
-(defn- tick [data-atom]
-  (let [{:keys [start-time duration]} (:countdown @data-atom)]
-    (if start-time
-      (if-let [seconds-left (time/seconds-left start-time duration)]
-        (data/set-current-time data-atom seconds-left)
-        (complete-countdown data-atom))
-      (data/stop-tick data-atom))))
-
-(defn- start-tick [data-atom]
-  (tick data-atom)
-  (data/start-tick data-atom #(tick data-atom)))
+(defn- handle-countdown-complete []
+  (js/alert "Countdown complete!"))
 
 (defn- handle-form-submit [e data-atom]
   (.preventDefault e)
-  (data/start-countdown data-atom)
-  (start-tick data-atom))
+  (data/start-countdown data-atom handle-countdown-complete))
 
 (defn- handle-mount [data-atom]
-  (start-tick data-atom))
+  (data/start-tick data-atom handle-countdown-complete))
 
 (defn- handle-stop-countdown [data-atom]
   (data/stop-countdown data-atom))
