@@ -14,12 +14,12 @@
                   [bidi                      "1.21.1"]])
 
 (require
-  '[adzerk.boot-cljs            :refer :all]
-  '[adzerk.boot-cljs-repl       :refer :all]
-  '[adzerk.boot-reload          :refer :all]
-  '[pandeiro.boot-http          :refer :all]
-  '[mathias.boot-sassc          :refer :all]
-  '[big-time.dev.tasks          :refer :all])
+  '[adzerk.boot-cljs      :refer :all]
+  '[adzerk.boot-cljs-repl :refer :all]
+  '[adzerk.boot-reload    :refer :all]
+  '[pandeiro.boot-http    :refer :all]
+  '[mathias.boot-sassc    :refer :all]
+  '[big-time.dev.tasks    :refer :all])
 
 (task-options!
   sass {:sass-file "main.scss"
