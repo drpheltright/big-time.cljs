@@ -12,22 +12,24 @@
   (:import [goog History]
            [goog.history EventType]))
 
-(enable-console-print!)
 
 (defn init []
+  (enable-console-print!)
+  (println "Initialising application")
+
   ; Default application state
   ;
   (def store (atom {:countdown {:form {:hours "00" :minutes "00" :seconds "10"}
                                 :duration 0
                                 :start-time nil
                                 :current-time ["00" "00" "00"]}
-                     :current-time ["00" "00" "00"]
-                     :page nil
-                     :pages {:time time/Time
-                             :countdown countdown/Countdown
-                             :about pages/About}
-                     :path nil
-                     :tasks {}}))
+                    :current-time ["00" "00" "00"]
+                    :page nil
+                    :pages {:time time/Time
+                            :countdown countdown/Countdown
+                            :about pages/About}
+                    :path nil
+                    :tasks {}}))
 
   (worker/create #(vals (:tasks @store)))
 
@@ -44,7 +46,7 @@
     (fn [key store state next-state]
       (if-let [page-component (:page next-state)]
         (do
-          (println "rendering")
+          (println "Rendering application")
           (q/render (app/App @store page-component store) (gdom/getElement "app"))))))
 
   ; Everytime application state :path changes we dispatch secretary.
@@ -64,10 +66,9 @@
       (fn [e]
         (let [token (.-token e)]
           (swap! store assoc :path (if (empty? token) "/" token)))))
-
     (.setEnabled history true)))
 
 (defn reload []
-  (println "reloading")
-  (swap! store assoc :dev (js/Date.))
-  (swap! store assoc :path "/"))
+  (let [now (js/Date.)]
+    (println "Reloading application" (str now))
+    (swap! store assoc :reload-time now)))
