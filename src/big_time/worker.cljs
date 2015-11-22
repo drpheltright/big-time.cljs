@@ -1,7 +1,6 @@
-(ns big-time.util.worker)
+(ns big-time.worker)
 
 (defn- process [tasks]
-  (println "processing")
   (doall (map (fn [task] (task)) tasks)))
 
 (defn create [find-fn]

@@ -8,7 +8,7 @@
             [big-time.ui.countdown :as countdown]
             [big-time.ui.pages :as pages]
             [big-time.routes :as routes]
-            [big-time.util.worker :as worker])
+            [big-time.worker :as worker])
   (:import [goog History]
            [goog.history EventType]))
 
