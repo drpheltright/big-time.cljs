@@ -1,6 +1,6 @@
 .clock {
   color: black;
-  font-size: 10em;
+  font-size: 5em;
   line-height: 1em;
   margin-top: -.5em;
   position: absolute;
@@ -18,4 +18,16 @@
 
 .clock__second {
   opacity: .4;
+}
+
+@media only screen and (min-width: 500px) {
+  .clock {
+    font-size: 7em;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .clock {
+    font-size: 10em;
+  }
 }
