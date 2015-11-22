@@ -28,16 +28,22 @@
   (tick @data-atom data-atom)
   (data/start-tick data-atom #(tick @data-atom data-atom)))
 
-(defn- start-countdown [data-atom e]
+(defn- handle-form-submit [e data-atom]
   (.preventDefault e)
   (data/start-countdown data-atom)
   (start-tick data-atom))
+
+(defn- handle-mount [data-atom]
+  (start-tick data-atom))
+
+(defn- handle-stop-countdown [data-atom]
+  (data/stop-countdown data-atom))
 
 (q/defcomponent CountdownForm
   :name "CountdownForm"
   [data data-atom]
   (dom/form {:onChange #(handle-field-change % data-atom)
-             :onSubmit (partial start-countdown data-atom)}
+             :onSubmit #(handle-form-submit % data-atom)}
     (form/input :countdown :hours (data/get-form-time data-atom :hours))
     (form/input :countdown :minutes (data/get-form-time data-atom :minutes))
     (form/input :countdown :seconds (data/get-form-time data-atom :seconds))
@@ -45,10 +51,10 @@
 
 (q/defcomponent Countdown
   :name "Countdown"
-  :on-mount #(start-tick %3)
+  :on-mount #(handle-mount %3)
   [data data-atom]
   (if (data/counting-down? data-atom)
     (dom/div {}
-      (dom/button {:onClick (partial data/stop-countdown data-atom)} "Stop countdown"))
       (clock/Clock (data/get-current-time data-atom))
+      (dom/button {:onClick #(handle-stop-countdown data-atom)} "Stop countdown"))
     (CountdownForm data data-atom)))
