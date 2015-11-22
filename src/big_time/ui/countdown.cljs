@@ -4,20 +4,18 @@
             [clojure.string :as string]
             [big_time.ui.clock :as clock]
             [big_time.ui.form :as form]
-            [big_time.util.time :as time]))
+            [big_time.util.time :as time]
+            [big-time.data.countdown :as data]))
 
 (declare Countdown)
 
 (defn- stop-tick [data-atom]
   (swap! data-atom update :tasks dissoc :countdown-tick))
 
-(defn- set-form-time [e data-atom]
+(defn- handle-field-change [e data-atom]
   (let [field (.. e -target -name)
         value (.. e -target -value)]
-    (swap! data-atom assoc-in [:countdown :form (keyword field)] value)))
-
-(defn- get-form-time [field data]
-  (get-in data [:countdown :form field]))
+    (data/set-form-time data-atom (keyword field) value)))
 
 (defn- counting-down? [data]
   (not (nil? (get-in data [:countdown :start-time]))))
@@ -54,11 +52,11 @@
 (q/defcomponent CountdownForm
   :name "CountdownForm"
   [data data-atom]
-  (dom/form {:onChange #(set-form-time % data-atom)
+  (dom/form {:onChange #(handle-field-change % data-atom)
              :onSubmit (partial start-countdown data-atom)}
-    (form/input :countdown :hours (get-form-time :hours data))
-    (form/input :countdown :minutes (get-form-time :minutes data))
-    (form/input :countdown :seconds (get-form-time :seconds data))
+    (form/input :countdown :hours (data/get-form-time data-atom :hours))
+    (form/input :countdown :minutes (data/get-form-time data-atom :minutes))
+    (form/input :countdown :seconds (data/get-form-time data-atom :seconds))
     (form/submit "Start countdown")))
 
 (q/defcomponent Countdown
