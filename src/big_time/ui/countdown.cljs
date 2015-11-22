@@ -16,8 +16,8 @@
   (js/alert "Countdown complete!")
   (data/stop-countdown data-atom))
 
-(defn- tick [data data-atom]
-  (let [{:keys [start-time duration]} (:countdown data)]
+(defn- tick [data-atom]
+  (let [{:keys [start-time duration]} (:countdown @data-atom)]
     (if start-time
       (if-let [seconds-left (time/seconds-left start-time duration)]
         (data/set-current-time data-atom seconds-left)
@@ -25,8 +25,8 @@
       (data/stop-tick data-atom))))
 
 (defn- start-tick [data-atom]
-  (tick @data-atom data-atom)
-  (data/start-tick data-atom #(tick @data-atom data-atom)))
+  (tick data-atom)
+  (data/start-tick data-atom #(tick data-atom)))
 
 (defn- handle-form-submit [e data-atom]
   (.preventDefault e)
