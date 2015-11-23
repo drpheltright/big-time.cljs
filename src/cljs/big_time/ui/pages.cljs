@@ -8,4 +8,4 @@
   :on-render #(set! (.-title js/document) "About")
   [data store]
   (dom/div {:className "page page--about"}
-    (md/component "markdown/about.md")))
+    (md/component "about")))

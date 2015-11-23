@@ -1,7 +1,7 @@
 (set-env!
-  :source-paths #{"markdown" "sass" "src"}
+  :source-paths #{"src/cljs" "src/markdown" "src/sass"}
 
-  :resource-paths #{"html"}
+  :resource-paths #{"resources"}
 
   :dependencies '[[org.clojure/clojurescript "1.7.48"]
                   [quiescent                 "0.2.0-RC2"]
