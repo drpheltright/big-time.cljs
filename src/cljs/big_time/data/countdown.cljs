@@ -43,7 +43,7 @@
 (defn start-countdown [store handle-complete]
   (let [time-vector (vals (get-in @store [:countdown :form]))]
     (swap! store update-in [:countdown] assoc :start-time (time/now)
-                                                  :duration (time/vector->seconds time-vector))
+                                              :duration (time/vector->seconds time-vector))
     (start-tick store handle-complete)))
 
 (defn check-for-countdown [store handle-complete]
