@@ -23,14 +23,15 @@
 (defn- handle-stop-countdown [store]
   (data/stop-countdown store))
 
+(defn- input [store field]
+  (form/input :countdown field (data/get-form-time store field)))
+
 (q/defcomponent CountdownForm
   :name "CountdownForm"
   [data store]
   (dom/form {:onChange #(handle-field-change % store)
              :onSubmit #(handle-form-submit % store)}
-    (form/input :countdown :hours (data/get-form-time store :hours))
-    (form/input :countdown :minutes (data/get-form-time store :minutes))
-    (form/input :countdown :seconds (data/get-form-time store :seconds))
+    (map #(input store %) [:hours :minutes :seconds])
     (form/submit "Start countdown")))
 
 (q/defcomponent Countdown
