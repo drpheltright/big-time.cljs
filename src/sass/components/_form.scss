@@ -1,10 +1,15 @@
 form {
+  background: #A8DBA8;
+  border-bottom: 4px solid #3B8686;
+  color: #0B486B;
   margin: 0 auto;
   max-width: 20em;
   padding: 2em;
 }
 
 .field {
+  margin: 0 auto;
+  max-width: 20em;
   padding-top: 1em;
 
   label {
@@ -14,7 +19,6 @@ form {
   input {
     background: rgba(255,255,255, .2);
     border: 1px solid rgba(255,255,255, .2);
-    color: white;
     font-size: 1em;
     margin-top: .5em;
     padding: .3em;
@@ -26,19 +30,45 @@ form {
       outline: 0;
     }
   }
+}
 
-  input[type=submit] {
+.fieldset {
+  overflow: hidden;
+}
+
+.field--of-3 {
+  @extend .field;
+  float: left;
+  margin-right: 5%;
+  width: 30%;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.field--button {
+  @extend .field;
+
+  button {
+    background: #79BD9A;
     border: 0;
-    border-bottom: 2px solid rgba(0,0,0, .1);
+    border-bottom: 4px solid #3B8686;
+    color: #0B486B;
     cursor: pointer;
-    padding: 1em;
+    font-size: 1em;
+    padding: 1em 2em;
+    text-shadow: 0 1px 0 #A8DBA8;
 
     &:hover,
     &:focus {
-      border-bottom: 0;
+      border-bottom-width: 2px;
+      margin-top: 2px;
       outline: 0;
-      position: relative;
-      top: 2px;
     }
+  }
+
+  form & {
+    text-align: right;
   }
 }

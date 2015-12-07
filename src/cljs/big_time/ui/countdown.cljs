@@ -24,15 +24,16 @@
   (data/stop-countdown store))
 
 (defn- input [store field]
-  (form/input :countdown field (data/get-form-time store field)))
+  (form/input-of-3 :countdown field {:value (data/get-form-time store field)}))
 
 (q/defcomponent CountdownForm
   :name "CountdownForm"
   [data store]
   (dom/form {:onChange #(handle-field-change % store)
              :onSubmit #(handle-form-submit % store)}
-    (map #(input store %) [:hours :minutes :seconds])
-    (form/submit "Start countdown")))
+    (dom/div {:className "fieldset"}
+      (map #(input store %) [:hours :minutes :seconds]))
+    (form/button {} "Start countdown")))
 
 (q/defcomponent Countdown
   :name "Countdown"
@@ -41,5 +42,6 @@
   (if (data/counting-down? store)
     (dom/div {}
       (clock/Clock (data/get-current-time store))
-      (dom/button {:onClick #(handle-stop-countdown store)} "Stop countdown"))
+      (dom/div {:style {:textAlign "center"}}
+        (form/button {:onClick #(handle-stop-countdown store)} "Stop countdown")))
     (CountdownForm data store)))
