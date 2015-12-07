@@ -17,11 +17,11 @@
   "Initialises application"
   []
 
-  (println "Initialising application")
-
   ;; Output println to console
   ;;
   (enable-console-print!)
+
+  (println "Initialising application")
 
   ;; Default application state
   ;;
